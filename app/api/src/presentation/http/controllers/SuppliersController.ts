@@ -18,9 +18,10 @@ export class SuppliersController {
      */
     async create(req: Request, res: Response) {
         try {
-            await this.createSupplierUseCase.execute(req.body);
+            const result = await this.createSupplierUseCase.execute(req.body);
 
             return res.status(201).json({
+                id: result.id,
                 message: "Supplier created"
             });
         } catch (error: any) {
@@ -29,6 +30,7 @@ export class SuppliersController {
             });
         }
     }
+
 
     /**
      * Obtiene la lista de proveedores.
