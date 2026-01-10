@@ -9,16 +9,31 @@ export class InventoryController {
     ) { }
 
     async registerMovement(req: Request, res: Response) {
-        await this.registerInventoryMovementUseCase.execute(req.body);
-        return res.status(201).json({ message: "Inventory movement registered" });
+        try {
+            await this.registerInventoryMovementUseCase.execute(req.body);
+
+            return res.status(201).json({
+                message: "Inventory movement registered"
+            });
+        } catch (error: any) {
+            return res.status(400).json({
+                message: error.message
+            });
+        }
     }
 
     async getMovements(req: Request, res: Response) {
-        const productId = req.query.productId as string | undefined;
+        try {
+            const productId = req.query.productId as string | undefined;
 
-        const movements =
-            await this.getInventoryMovementsUseCase.execute(productId);
+            const movements =
+                await this.getInventoryMovementsUseCase.execute(productId);
 
-        return res.status(200).json(movements);
+            return res.status(200).json(movements);
+        } catch (error: any) {
+            return res.status(500).json({
+                message: error.message
+            });
+        }
     }
 }

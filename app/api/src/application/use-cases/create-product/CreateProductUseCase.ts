@@ -1,31 +1,25 @@
 import { randomUUID } from "crypto";
 import { Product } from "../../../domain/product/Product";
 import { ProductRepository } from "../../../domain/product/ProductRepository";
+import { Stock } from "../../../domain/stock/Stock";
+import { StockRepository } from "../../../domain/stock/StockRepository";
 import { CreateProductDTO } from "./CreateProductDTO";
 
 /**
- * Caso de uso: Crear un producto.
+ * Caso de uso para crear un producto.
  *
- * Construye una entidad `Product` a partir del `CreateProductDTO`, asigna
- * un identificador generado por el sistema y delega la persistencia al
- * `ProductRepository`.
+ * Regla de negocio:
+ * - Todo producto se crea con stock inicial 0
+ * - El stock se crea en una ubicación por defecto ("MAIN")
  */
 export class CreateProductUseCase {
-    /**
-     * @param productRepository Repositorio para persistir la entidad `Product`.
-     */
     constructor(
-        private productRepository: ProductRepository
+        private productRepository: ProductRepository,
+        private stockRepository: StockRepository
     ) { }
 
-    /**
-     * Ejecuta el caso de uso de creación de producto.
-     *
-     * @param dto Objeto con los datos necesarios para crear el producto.
-     * @returns `Promise<void>` una vez que el producto ha sido guardado.
-     */
-    async execute(dto: CreateProductDTO): Promise<void> {
-        // Crear la entidad Product con ID generado por el sistema y estado activo
+    async execute(dto: CreateProductDTO): Promise<{ id: string }> {
+        // Crear producto
         const product = Product.create({
             id: randomUUID(),
             name: dto.name,
@@ -34,7 +28,21 @@ export class CreateProductUseCase {
             supplierId: dto.supplierId
         });
 
-        // Persistir el producto usando el repositorio proporcionado
+        // Guardar producto
         await this.productRepository.save(product);
+
+        // Crear stock inicial en 0 (ubicación por defecto)
+        const stock = Stock.create({
+            productId: product.getId(),
+            quantity: 0,
+            location: "MAIN"
+        });
+
+        await this.stockRepository.save(stock);
+
+        // Devolver ID generado
+        return {
+            id: product.getId()
+        };
     }
 }

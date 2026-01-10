@@ -1,4 +1,5 @@
 import { StockRepository } from "../../../domain/stock/StockRepository";
+import { ProductRepository } from "../../../domain/product/ProductRepository";
 import { GetStockResponseDTO } from "./GetStockResponseDTO";
 
 /**
@@ -9,25 +10,20 @@ import { GetStockResponseDTO } from "./GetStockResponseDTO";
  * - Si no se proporciona `productId`, devuelve el stock global (lista de stocks).
  */
 export class GetStockUseCase {
-    /**
-     * @param stockRepository Repositorio para acceder a datos de stock.
-     */
     constructor(
-        private stockRepository: StockRepository
+        private stockRepository: StockRepository,
+        private productRepository: ProductRepository
     ) { }
 
-    /**
-     * Ejecuta la consulta de stock.
-     *
-     * @param productId Opcional. Si se proporciona, se devuelve el `GetStockResponseDTO` para ese producto.
-     * @throws {Error} Si se solicita un `productId` que no existe.
-     * @returns `Promise<GetStockResponseDTO | GetStockResponseDTO[]>` con el resultado.
-     */
     async execute(
         productId?: string
     ): Promise<GetStockResponseDTO | GetStockResponseDTO[]> {
 
-        // Caso: stock por producto
+        /**
+         * =========================
+         * Stock por producto
+         * =========================
+         */
         if (productId) {
             const stock = await this.stockRepository.findByProductId(productId);
 
@@ -35,21 +31,38 @@ export class GetStockUseCase {
                 throw new Error("Stock not found");
             }
 
+            const product = await this.productRepository.findById(
+                stock.getProductId()
+            );
+
             return {
-                // Mapear la entidad `Stock` al DTO de respuesta
                 productId: stock.getProductId(),
+                productName: product?.getName() ?? "Unknown product",
                 quantity: stock.getQuantity(),
                 location: stock.getLocation()
             };
         }
 
-        // Caso: stock global
+        /**
+         * =========================
+         * Stock global
+         * =========================
+         */
         const stocks = await this.stockRepository.findAll();
 
-        return stocks.map(stock => ({
-            productId: stock.getProductId(),
-            quantity: stock.getQuantity(),
-            location: stock.getLocation()
-        }));
+        return Promise.all(
+            stocks.map(async stock => {
+                const product = await this.productRepository.findById(
+                    stock.getProductId()
+                );
+
+                return {
+                    productId: stock.getProductId(),
+                    productName: product?.getName() ?? "Unknown product",
+                    quantity: stock.getQuantity(),
+                    location: stock.getLocation()
+                };
+            })
+        );
     }
 }

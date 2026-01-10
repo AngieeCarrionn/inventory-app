@@ -48,7 +48,10 @@ export function buildApp() {
     // Use cases
     // =====================
     // Products
-    const createProductUC = new CreateProductUseCase(productRepo);
+    const createProductUC = new CreateProductUseCase(
+        productRepo,
+        stockRepo
+    );
     const updateProductUC = new UpdateProductUseCase(productRepo);
     const activateProductUC = new ActivateProductUseCase(productRepo);
     const deactivateProductUC = new DeactivateProductUseCase(productRepo);
@@ -56,7 +59,10 @@ export function buildApp() {
     const getProductsUC = new GetProductsUseCase(productRepo);
 
     // Stock
-    const getStockUC = new GetStockUseCase(stockRepo);
+    const getStockUC = new GetStockUseCase(
+        stockRepo,
+        productRepo
+    );
 
     // Inventory movements
     const registerMovementUC = new RegisterInventoryMovementUseCase(
