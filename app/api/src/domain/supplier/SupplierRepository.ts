@@ -19,4 +19,9 @@ export interface SupplierRepository {
      * @returns `Promise<Supplier[]>` arreglo con las entidades `Supplier`.
      */
     findAll(): Promise<Supplier[]>;
+    /**
+     * Recupera un proveedor por su ID.
+     * @returns `Promise<Supplier | null>` la entidad `Supplier` si existe, o `null` si no.
+     */
+    findById(id: string): Promise<Supplier | null>;
 }

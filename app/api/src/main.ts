@@ -50,7 +50,8 @@ export function buildApp() {
     // Products
     const createProductUC = new CreateProductUseCase(
         productRepo,
-        stockRepo
+        stockRepo,
+        supplierRepo
     );
     const updateProductUC = new UpdateProductUseCase(productRepo);
     const activateProductUC = new ActivateProductUseCase(productRepo);

@@ -50,4 +50,20 @@ export class MongoSupplierRepository implements SupplierRepository {
             })
         );
     }
+
+    async findById(id: string): Promise<Supplier | null> {
+        const collection = await this.getCollection();
+        const doc = await collection.findOne({ _id: id });
+
+        if (!doc) {
+            return null;
+        }
+
+        return Supplier.rehydrate({
+            id: doc._id,
+            name: doc.name,
+            address: doc.address,
+            contact: doc.contact
+        });
+    }
 }
