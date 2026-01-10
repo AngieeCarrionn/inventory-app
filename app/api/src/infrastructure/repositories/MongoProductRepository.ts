@@ -3,25 +3,37 @@ import { Product } from "../../domain/product/Product";
 import { getCollections } from "../db/mongo/collections";
 
 export class MongoProductRepository implements ProductRepository {
+
     async save(product: Product): Promise<void> {
         const { productCollection } = await getCollections();
 
+        await productCollection.insertOne({
+            _id: product.getId(),
+            name: product.getName(),
+            description: product.getDescription(),
+            price: product.getPrice(),
+            supplierId: product.getSupplierId(),
+            isActive: product.isActive(),
+            createdAt: new Date(),
+            updatedAt: new Date()
+        });
+    }
+
+    async update(product: Product): Promise<void> {
+        const { productCollection } = await getCollections();
+
         await productCollection.updateOne(
-            { _id: product.id },
+            { _id: product.getId() },
             {
                 $set: {
-                    name: product.name,
-                    description: product.description,
-                    price: product.price,
-                    supplierId: product.supplierId,
-                    isActive: product.isActive,
+                    name: product.getName(),
+                    description: product.getDescription(),
+                    price: product.getPrice(),
+                    supplierId: product.getSupplierId(),
+                    isActive: product.isActive(),
                     updatedAt: new Date()
-                },
-                $setOnInsert: {
-                    createdAt: new Date()
                 }
-            },
-            { upsert: true }
+            }
         );
     }
 
@@ -31,13 +43,30 @@ export class MongoProductRepository implements ProductRepository {
         const doc = await productCollection.findOne({ _id: id });
         if (!doc) return null;
 
-        return new Product(
-            doc._id,
-            doc.name,
-            doc.description,
-            doc.price,
-            doc.supplierId,
-            doc.isActive
+        return Product.rehydrate({
+            id: doc._id,
+            name: doc.name,
+            description: doc.description,
+            price: doc.price,
+            supplierId: doc.supplierId,
+            isActive: doc.isActive
+        });
+    }
+
+    async findAll(): Promise<Product[]> {
+        const { productCollection } = await getCollections();
+
+        const docs = await productCollection.find().toArray();
+
+        return docs.map(doc =>
+            Product.rehydrate({
+                id: doc._id,
+                name: doc.name,
+                description: doc.description,
+                price: doc.price,
+                supplierId: doc.supplierId,
+                isActive: doc.isActive
+            })
         );
     }
 }

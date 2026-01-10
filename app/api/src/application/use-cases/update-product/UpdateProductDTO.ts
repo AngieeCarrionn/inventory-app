@@ -1,10 +1,16 @@
 /**
- * Data Transfer Object (DTO) para la creación de un producto.
+ * Data Transfer Object (DTO) para la actualización de un producto.
  *
- * Este objeto representa los datos necesarios para crear un
- * nuevo producto en el sistema.
+ * Este objeto representa los datos necesarios para actualizar un
+ * producto existente en el sistema.
  */
-export interface CreateProductDTO {
+export interface UpdateProductDTO {
+    /**
+     * Id del producto.
+     * Ejemplo: "f6a1c2d4-..."
+     */
+    id: string;
+
     /**
      * Nombre del producto.
      * Ejemplo: "Cámara digital Sony"

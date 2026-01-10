@@ -1,23 +1,54 @@
 export class Stock {
-    constructor(
-        public readonly productId: string,
-        private quantity: number
+    private constructor(
+        private readonly productId: string,
+        private quantity: number,
+        private location: string
     ) { }
 
-    getQuantity() {
+    static create(data: {
+        productId: string;
+        quantity: number;
+        location: string;
+    }): Stock {
+        return new Stock(
+            data.productId,
+            data.quantity,
+            data.location
+        );
+    }
+
+    static rehydrate(data: {
+        productId: string;
+        quantity: number;
+        location: string;
+    }): Stock {
+        return new Stock(
+            data.productId,
+            data.quantity,
+            data.location
+        );
+    }
+
+    getProductId(): string {
+        return this.productId;
+    }
+
+    getQuantity(): number {
         return this.quantity;
     }
 
-    increase(qty: number) {
-        if (qty <= 0) throw new Error("Quantity must be positive");
-        this.quantity += qty;
+    getLocation(): string {
+        return this.location;
     }
 
-    decrease(qty: number) {
-        if (qty <= 0) throw new Error("Quantity must be positive");
-        if (this.quantity < qty) {
+    increase(amount: number): void {
+        this.quantity += amount;
+    }
+
+    decrease(amount: number): void {
+        if (this.quantity < amount) {
             throw new Error("Insufficient stock");
         }
-        this.quantity -= qty;
+        this.quantity -= amount;
     }
 }
