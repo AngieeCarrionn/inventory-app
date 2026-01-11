@@ -73,7 +73,8 @@ export function buildApp() {
     // Inventory movements
     const registerMovementUC = new RegisterInventoryMovementUseCase(
         stockRepo,
-        movementRepo
+        movementRepo,
+        productRepo
     );
     const getMovementsUC = new GetInventoryMovementsUseCase(movementRepo);
 

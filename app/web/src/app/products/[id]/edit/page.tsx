@@ -8,7 +8,7 @@ import { productService } from "@/services/productService";
 import { supplierService } from "@/services/supplierService";
 import { Supplier } from "@/types/Supplier";
 import { ArrowLeftIcon } from "@/components/icons/ArrowLeftIcon";
-
+import { Alert } from "@/components/Alert";
 export default function EditProductPage() {
     const router = useRouter();
     const params = useParams();
@@ -26,7 +26,7 @@ export default function EditProductPage() {
         price: "",
         supplierId: "",
     });
-
+    const [error, setError] = useState<string | null>(null);
     useEffect(() => {
         const loadData = async () => {
             const [product, suppliers] = await Promise.all([
@@ -61,15 +61,18 @@ export default function EditProductPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        try {
+            await productService.update(id, {
+                name: form.name,
+                description: form.description,
+                price: Number(form.price),
+                supplierId: form.supplierId,
+            });
 
-        await productService.update(id, {
-            name: form.name,
-            description: form.description,
-            price: Number(form.price),
-            supplierId: form.supplierId,
-        });
-
-        router.push("/products");
+            router.push("/products");
+        } catch (error: any) {
+            setError(error.message);
+        }
     };
 
     if (loading) {
@@ -86,7 +89,13 @@ export default function EditProductPage() {
             <h1 className="text-2xl font-bold text-[#F6F7E6] mb-6">
                 Edit product
             </h1>
-
+            {error && (
+                <Alert
+                    message={error}
+                    type="error"
+                    onClose={() => setError(null)}
+                />
+            )}
             <form
                 onSubmit={handleSubmit}
                 className="bg-white rounded-xl shadow p-6 space-y-4"

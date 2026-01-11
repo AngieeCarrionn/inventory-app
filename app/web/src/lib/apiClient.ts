@@ -17,7 +17,14 @@ export async function apiClient<T>(
     });
 
     if (!res.ok) {
-        throw new Error("API error");
+        const data = await res.json().catch(() => null);
+
+        const message =
+            data?.message ||
+            data?.error ||
+            "Unexpected API error";
+
+        throw new Error(message);
     }
 
     return res.json();

@@ -90,7 +90,7 @@ export default function InventoryDetailsPage() {
                                 <span
                                     className={`px-3 py-1 rounded-full text-sm font-medium ${m.type === "IN"
                                         ? "bg-green-100 text-green-700"
-                                        : m.type === "SELL"
+                                        : m.type === "SALE"
                                             ? "bg-red-100 text-red-700"
                                             : "bg-yellow-100 text-yellow-700"
                                         }`}

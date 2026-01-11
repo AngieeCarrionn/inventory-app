@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { supplierService } from "@/services/supplierService";
 import { ArrowLeftIcon } from "@/components/icons/ArrowLeftIcon";
-
+import { Alert } from "@/components/Alert";
 export default function CreateSupplierPage() {
     const router = useRouter();
 
@@ -18,7 +18,7 @@ export default function CreateSupplierPage() {
         email: "",
         phone: "",
     });
-
+    const [error, setError] = useState<string | null>(null);
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -30,21 +30,24 @@ export default function CreateSupplierPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        try {
+            await supplierService.create({
+                name: form.name,
+                address: {
+                    street: form.street,
+                    city: form.city,
+                    country: form.country,
+                },
+                contact: {
+                    email: form.email,
+                    phone: form.phone,
+                },
+            });
 
-        await supplierService.create({
-            name: form.name,
-            address: {
-                street: form.street,
-                city: form.city,
-                country: form.country,
-            },
-            contact: {
-                email: form.email,
-                phone: form.phone,
-            },
-        });
-
-        router.push("/suppliers");
+            router.push("/suppliers");
+        } catch (error: any) {
+            setError(error.message);
+        }
     };
 
     return (
@@ -53,7 +56,13 @@ export default function CreateSupplierPage() {
             <h1 className="text-2xl font-bold text-[#F6F7E6] mb-6">
                 Create supplier
             </h1>
-
+            {error && (
+                <Alert
+                    message={error}
+                    type="error"
+                    onClose={() => setError(null)}
+                />
+            )}
             <form
                 onSubmit={handleSubmit}
                 className="bg-white rounded-xl shadow p-6 space-y-4"

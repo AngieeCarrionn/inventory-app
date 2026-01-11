@@ -8,7 +8,7 @@ import { inventoryService } from "@/services/inventoryService";
 import { productService } from "@/services/productService";
 import { Product } from "@/types/Product";
 import { ArrowLeftIcon } from "@/components/icons/ArrowLeftIcon";
-
+import { Alert } from "@/components/Alert";
 export default function CreateInventoryMovementPage() {
     const router = useRouter();
 
@@ -18,10 +18,10 @@ export default function CreateInventoryMovementPage() {
     const [form, setForm] = useState({
         productId: "",
         quantity: "",
-        movementType: "SELL",
+        movementType: "SALE",
         note: "",
     });
-
+    const [error, setError] = useState<string | null>(null);
     useEffect(() => {
         const loadProducts = async () => {
             const data = await productService.getAll();
@@ -46,14 +46,18 @@ export default function CreateInventoryMovementPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        await inventoryService.registerMovement({
-            productId: form.productId,
-            quantity: Number(form.quantity),
-            movementType: form.movementType as any,
-            note: form.note,
-        });
+        try {
+            await inventoryService.registerMovement({
+                productId: form.productId,
+                quantity: Number(form.quantity),
+                movementType: form.movementType as any,
+                note: form.note,
+            });
 
-        router.push("/inventory");
+            router.push("/inventory");
+        } catch (error: any) {
+            setError(error.message);
+        }
     };
 
     if (loading) {
@@ -67,6 +71,13 @@ export default function CreateInventoryMovementPage() {
                 Create inventory movement
             </h1>
 
+            {error && (
+                <Alert
+                    message={error}
+                    type="error"
+                    onClose={() => setError(null)}
+                />
+            )}
             <form
                 onSubmit={handleSubmit}
                 className="bg-white rounded-xl shadow p-6 space-y-4"
@@ -122,7 +133,7 @@ export default function CreateInventoryMovementPage() {
                     >
                         <option value="IN">IN</option>
                         <option value="OUT">OUT</option>
-                        <option value="SELL">SELL</option>
+                        <option value="SALE">SALE</option>
                         <option value="ADJUST">ADJUST</option>
                     </select>
                 </div>
