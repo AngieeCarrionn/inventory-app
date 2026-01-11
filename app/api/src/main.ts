@@ -36,10 +36,7 @@ import { GetSuppliersUseCase } from "./application/use-cases/get-suppliers/GetSu
 export function buildApp() {
     const app = express();
     app.use(cors({
-        origin: [
-            "http://localhost:3000",
-            "https://inventory-app-seven-rho.vercel.app"
-        ],
+        origin: true,
         methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"]
     }));
