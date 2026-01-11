@@ -14,6 +14,6 @@ export async function connectMongo(): Promise<Db> {
     client = new MongoClient(MONGO_URI);
     await client.connect();
 
-    db = client.db(); // 👈 usa la DB de la URI
+    db = client.db(); // usa la DB de la URI
     return db;
 }
