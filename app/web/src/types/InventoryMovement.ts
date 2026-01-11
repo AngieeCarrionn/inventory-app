@@ -3,7 +3,8 @@ export type MovementType = "IN" | "OUT";
 export interface InventoryMovement {
     id: string;
     productId: string;
+    type: "IN" | "OUT" | "SELL" | "ADJUST";
     quantity: number;
-    movementType: MovementType;
-    createdAt: string;
+    date: string;
+    note: string
 }

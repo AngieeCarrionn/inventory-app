@@ -35,6 +35,7 @@ export class RegisterInventoryMovementUseCase {
             id: randomUUID(),
             productId: dto.productId,
             type: dto.movementType as MovementType,
+            note: dto.note,
             quantity: dto.quantity
         });
 

@@ -14,6 +14,7 @@ export class MongoInventoryMovementRepository
             productId: movement.getProductId(),
             quantity: movement.getQuantity(),
             movementType: movement.getType(),    // enum → string
+            note: movement.getNote(),
             createdAt: movement.getDate()
         });
     }
@@ -29,6 +30,7 @@ export class MongoInventoryMovementRepository
                 productId: doc.productId,
                 type: doc.movementType as MovementType, // ✅ conversión
                 quantity: doc.quantity,
+                note: doc.note,
                 date: doc.createdAt
             })
         );
@@ -48,6 +50,7 @@ export class MongoInventoryMovementRepository
                 productId: doc.productId,
                 type: doc.movementType as MovementType, // ✅ conversión
                 quantity: doc.quantity,
+                note: doc.note,
                 date: doc.createdAt
             })
         );

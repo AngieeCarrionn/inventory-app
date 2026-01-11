@@ -139,7 +139,7 @@ export default function StockPage() {
 
                 {/* View movements (right) */}
                 <Link
-                    href="/inventory"
+                    href="/inventory/details"
                     className="
     px-4 py-2 rounded-xl
     bg-[#74ADEB]/80

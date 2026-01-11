@@ -8,5 +8,6 @@ export interface GetInventoryMovementsResponseDTO {
     productId: string;
     type: MovementType;
     quantity: number;
-    date: Date;
+    note?: string;
+    date?: Date;
 }

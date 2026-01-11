@@ -33,7 +33,7 @@ export interface InventoryMovementDocument {
     productId: string;
     quantity: number;
     movementType: "IN" | "OUT" | "SALE";
-    note?: string;
+    note: string;
     createdAt: Date;
 }
 

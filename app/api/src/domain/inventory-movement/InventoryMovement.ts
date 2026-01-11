@@ -6,6 +6,7 @@ export class InventoryMovement {
         private readonly productId: string,
         private readonly type: MovementType,
         private readonly quantity: number,
+        private readonly note: string,
         private readonly date: Date
     ) { }
 
@@ -14,6 +15,7 @@ export class InventoryMovement {
         productId: string;
         type: MovementType;
         quantity: number;
+        note: string;
         date?: Date;
     }): InventoryMovement {
         return new InventoryMovement(
@@ -21,6 +23,7 @@ export class InventoryMovement {
             data.productId,
             data.type,
             data.quantity,
+            data.note,
             data.date ?? new Date()
         );
     }
@@ -30,6 +33,7 @@ export class InventoryMovement {
         productId: string;
         type: MovementType;
         quantity: number;
+        note: string;
         date: Date;
     }): InventoryMovement {
         return new InventoryMovement(
@@ -37,6 +41,7 @@ export class InventoryMovement {
             data.productId,
             data.type,
             data.quantity,
+            data.note,
             data.date
         );
     }
@@ -58,6 +63,9 @@ export class InventoryMovement {
         return this.quantity;
     }
 
+    getNote(): string {
+        return this.note;
+    }
     getDate(): Date {
         return this.date;
     }

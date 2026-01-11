@@ -11,6 +11,7 @@ export const inventoryService = {
         productId: string;
         quantity: number;
         movementType: "IN" | "OUT";
+        note: string;
     }) {
         return apiClient("/inventory/movements", {
             method: "POST",

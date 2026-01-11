@@ -26,6 +26,7 @@ export class GetInventoryMovementsUseCase {
             productId: movement.getProductId(),
             type: movement.getType(),
             quantity: movement.getQuantity(),
+            note: movement.getNote(),
             date: movement.getDate()
         }));
     }

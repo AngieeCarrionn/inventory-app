@@ -26,5 +26,5 @@ export interface RegisterInventoryMovementDTO {
     /**
      * Nota opcional para describir el motivo o contexto del movimiento.
      */
-    note?: string;
+    note: string;
 }
