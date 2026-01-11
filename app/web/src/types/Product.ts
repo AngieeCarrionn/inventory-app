@@ -3,4 +3,6 @@ export interface Product {
     name: string;
     description: string;
     price: number;
+    supplierId?: string | null;
+    isActive: boolean;
 }

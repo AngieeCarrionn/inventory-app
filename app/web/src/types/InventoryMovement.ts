@@ -1,6 +1,9 @@
+export type MovementType = "IN" | "OUT";
+
 export interface InventoryMovement {
+    id: string;
     productId: string;
     quantity: number;
-    movementType: "IN" | "OUT";
-    note?: string;
+    movementType: MovementType;
+    createdAt: string;
 }

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
+import { productService } from "@/services/productService";
 import { Product } from "@/types/Product";
-import { getProductById } from "@/services/productService";
 
-export function useProduct(productId: string) {
-    const [product, setProduct] = useState<Product | null>(null);
+export function useProducts() {
+    const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
-        getProductById(productId).then(setProduct);
-    }, [productId]);
+        productService.getAll().then(setProducts);
+    }, []);
 
-    return product;
+    return { products };
 }

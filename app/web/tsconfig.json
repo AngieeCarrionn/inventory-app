@@ -33,7 +33,7 @@
     "next-env.d.ts",
     "src/**/*",
     ".next/types/**/*.ts"
-  ],
+, "tailwind.config.ts"  ],
   "exclude": [
     "../api/node_modules"
   ]

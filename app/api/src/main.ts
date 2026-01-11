@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { registerRoutes } from "./presentation/http/routes";
 
 // Controllers
@@ -34,6 +35,10 @@ import { GetSuppliersUseCase } from "./application/use-cases/get-suppliers/GetSu
 
 export function buildApp() {
     const app = express();
+    app.use(cors({
+        origin: "http://localhost:3000",
+    }));
+
     app.use(express.json());
 
     // =====================

@@ -1,14 +1,13 @@
-import "@/styles/globals.css";
-import type { ReactNode } from "react";
+import "./globals.css";
 
 export default function RootLayout({
     children,
 }: {
-    children: ReactNode;
+    children: React.ReactNode;
 }) {
     return (
         <html lang="en">
-            <body className="min-h-screen bg-gray-100 text-gray-900">
+            <body className="bg-[#F6F7E6] min-h-screen flex items-center justify-center">
                 {children}
             </body>
         </html>

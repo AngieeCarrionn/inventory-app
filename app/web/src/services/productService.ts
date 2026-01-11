@@ -1,12 +1,27 @@
+import { apiClient } from "@/lib/apiClient";
 import { Product } from "@/types/Product";
-import { env } from "@/lib/env";
 
-export async function getProductById(id: string): Promise<Product> {
-    const res = await fetch(`${env.API_URL}/products/${id}`);
+export const productService = {
+    getAll(): Promise<Product[]> {
+        return apiClient("/products");
+    },
 
-    if (!res.ok) {
-        throw new Error("Error fetching product");
-    }
+    getById(id: string): Promise<Product> {
+        return apiClient(`/products/${id}`);
+    },
 
-    return res.json();
-}
+    create(data: Partial<Product>) {
+        return apiClient("/products", {
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+    },
+
+    activate(id: string) {
+        return apiClient(`/products/${id}/activate`, { method: "PATCH" });
+    },
+
+    deactivate(id: string) {
+        return apiClient(`/products/${id}/deactivate`, { method: "PATCH" });
+    },
+};

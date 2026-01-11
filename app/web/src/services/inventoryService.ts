@@ -1,12 +1,25 @@
+import { apiClient } from "@/lib/apiClient";
 import { InventoryMovement } from "@/types/InventoryMovement";
-import { env } from "@/lib/env";
+import { Stock } from "@/types/Stock";
 
-export async function registerInventoryMovement(
-    movement: InventoryMovement
-) {
-    await fetch(`${env.API_URL}/inventory/movements`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(movement),
-    });
-}
+export const inventoryService = {
+    getStock(): Promise<Stock[]> {
+        return apiClient<Stock[]>("/stocks");
+    },
+
+    registerMovement(data: {
+        productId: string;
+        quantity: number;
+        movementType: "IN" | "OUT";
+    }) {
+        return apiClient("/inventory/movements", {
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+    },
+
+    getMovements(productId?: string): Promise<InventoryMovement[]> {
+        const query = productId ? `?productId=${productId}` : "";
+        return apiClient(`/inventory/movements${query}`);
+    },
+};
