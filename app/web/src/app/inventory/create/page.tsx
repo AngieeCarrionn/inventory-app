@@ -143,7 +143,7 @@ export default function CreateInventoryMovementPage() {
                 {/* ACTIONS */}
                 <div className="flex items-center justify-between pt-4">
                     <Link
-                        href="/stock"
+                        href="/inventory"
                         className="inline-flex items-center gap-2 text-sm text-gray-600"
                     >
                         <ArrowLeftIcon className="w-4 h-4" />
