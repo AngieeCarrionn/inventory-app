@@ -52,7 +52,7 @@ export class RegisterInventoryMovementUseCase {
             productId: dto.productId,
             type: dto.movementType as MovementType,
             quantity: dto.quantity,
-            note: dto.note, // opcional
+            note: dto.note ?? "", // opcional
         });
 
         await this.movementRepository.save(movement);

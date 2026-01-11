@@ -1,7 +1,7 @@
 import { MongoClient, Db } from "mongodb";
 
 const MONGO_URI =
-    process.env.MONGO_URI || "mongodb://localhost:27017/inventory";
+    process.env.MONGO_URI || "mongodb://localhost:27017/inventory_db";
 
 let client: MongoClient | null = null;
 let db: Db | null = null;

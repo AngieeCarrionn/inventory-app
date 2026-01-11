@@ -1,28 +1,31 @@
-version: "3.9"
-
 services:
   mongo:
-    image: mongo:7
+    image: mongo:6
+    container_name: inventory_mongo
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
 
   api:
-    build: ./apps/api
+    build:
+      context: ./app/api
+    container_name: inventory_api
     ports:
-      - "3001:3001"
-    environment:
-      - MONGO_URL=mongodb://mongo:27017/inventory_db
+      - "4000:4000"
+    env_file:
+      - ./app/api/.env.docker
     depends_on:
       - mongo
 
   web:
-    build: ./apps/web
+    build:
+      context: ./app/web
+      args:
+        NEXT_PUBLIC_API_URL: http://api:4000/api
+    container_name: inventory_web
     ports:
       - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:3001
     depends_on:
       - api
 

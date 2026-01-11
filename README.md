@@ -3,9 +3,9 @@
 Aplicación de inventario con clean architecture, compuesta por:
 
 - **Backend**: Node.js + TypeScript + Express + MongoDB
-- **Frontend**: Next.js 14 + TypeScript
+- **Frontend**: Next.js 14 + TypeScript + Next + Tailwind
 - **Arquitectura**: Clean Architecture / DDD
-- **Infra**: Docker + Docker Compose (opcional)
+- **Infra**: Docker + Docker Compose 
 
 ---
 
@@ -13,7 +13,7 @@ Aplicación de inventario con clean architecture, compuesta por:
 
 inventory-app/
 ├── api/ # Backend (Node + Express)
-├── web/ # Frontend (Next.js)
+├── web/ # Frontend (React + Next.js)
 ├── docker-compose.yml
 └── README.md
 ---
@@ -97,3 +97,4 @@ Se utilizó IA como apoyo para:
 - Definición de Dockerfiles y despliegue
 - Revisión de buenas prácticas
 - Documentación
+- Apoyo en la generación de estilos
