@@ -1,15 +1,26 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function HomePage() {
     return (
         <div className="flex items-center justify-center w-full">
-            <div className="bg-white rounded-2xl shadow-xl p-10 w-full max-w-md border border-[#0D0D30]/10">
+            <div className="bg-white rounded-2xl shadow-xl p-10 w-full max-w-md border border-[#0D0D30]/10 text-center">
 
-                <h1 className="text-3xl font-extrabold text-[#0D0D30] mb-4 text-center">
+                {/* LOGO */}
+                <div className="flex justify-center mb-6">
+                    <Image
+                        src="/logo.png"
+                        alt="Inventory App Logo"
+                        width={90}
+                        height={90}
+                    />
+                </div>
+
+                <h1 className="text-3xl font-extrabold text-[#0D0D30] mb-4">
                     Inventory App
                 </h1>
 
-                <p className="text-[#0D0D30]/70 text-center mb-8">
+                <p className="text-[#0D0D30]/70 mb-8">
                     Register inbound and outbound movements, sales, and manage your inventory stock.
                 </p>
 
@@ -17,7 +28,7 @@ export default function HomePage() {
                     <Link
                         href="/products"
                         className="block w-full text-center py-3 rounded-xl 
-                       bg-[#74ADEB] text-[#0D0D30] font-semibold
+                       bg-[#74ADEB] text-[#F6F7E6] font-semibold
                        hover:bg-[#74ADEB]/80 transition"
                     >
                         Products
@@ -26,17 +37,17 @@ export default function HomePage() {
                     <Link
                         href="/inventory"
                         className="block w-full text-center py-3 rounded-xl
-                       bg-[#54E89A] text-[#0D0D30] font-semibold
+                       bg-[#54E89A] text-[#F6F7E6] font-semibold
                        hover:bg-[#54E89A]/80 transition"
                     >
-                        Inventory
+                        Stock
                     </Link>
 
                     <Link
                         href="/suppliers"
                         className="block w-full text-center py-3 rounded-xl
-                       bg-[#F5C462] text-[#0D0D30] font-semibold
-                       hover:bg-[#F5C462]/80 transition"
+                       bg-[#0D0D30] text-[#F6F7E6] font-semibold
+                       hover:bg-[#0D0D30]/80 transition"
                     >
                         Suppliers
                     </Link>
